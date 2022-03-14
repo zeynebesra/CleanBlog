@@ -1,0 +1,30 @@
+{
+  "name": "cleanblog",
+  "version": "1.0.0",
+  "description": "CLEAN BLOG",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zeynebesra/CleanBlog.git"
+  },
+  "keywords": [
+    "blog"
+  ],
+  "author": "zey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zeynebesra/CleanBlog/issues"
+  },
+  "homepage": "https://github.com/zeynebesra/CleanBlog#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "prettier": "2.5.1"
+  },
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
