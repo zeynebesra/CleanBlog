@@ -34,6 +34,14 @@ app.get('/index', async (req, res) => {
     posts,
   });
 });
+//tek bir foto ait bilgi
+app.get('/posts/:id', async (req, res) => {
+  //console.log(req.params.id);
+  const post = await Post.findById(req.params.id);
+  res.render('post', {
+    post,
+  });
+});
 
 app.get('/about', (req, res) => {
   res.render('about');
