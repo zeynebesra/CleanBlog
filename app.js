@@ -1,10 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
+const methodOverride = require('method-override');
+const pageController = require('./controllers/pageController');
+const postController = require('./controllers/postController');
 const path = require('path');
 const ejs = require('ejs');
+const fs = require('fs');
 const Post = require('./models/Post');
 const app = express();
+const fileUpload = require('express-fileupload'); // modülü kullanıma alıyoruz.
+
 //connect DB
 mongoose.connect('mongodb://localhost/cleanblog-test-db', {
   useNewUrlParser: true,
@@ -19,44 +24,31 @@ mongoose.connect('mongodb://localhost/cleanblog-test-db', {
 //Template Engine
 app.set('view engine', 'ejs'); //views klasöre bakar
 
+//MIDDLEWARE
 // use the express.static built-in middleware function in Express.
 app.use(express.static('public'));
 // app.use(myLogger);
-
+app.use(fileUpload()); // middleware olarak kaydediyoruz.
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(
+  methodOverride('_method', {
+    methods: ['POST', 'GET'],
+  })
+);
 
 //Router
+//---postController.js
+app.get('/index', postController.getAllPosts); // tüm verileri çekmek için
+app.get('/posts/:id', postController.getPost); //tek bir foto ait bilgi
+app.post('/posts', postController.createPost); // POST metodu ile gelen veriyi model dosyamız ile yakalayıp veritabanına gönderelim.
+app.put('/posts/:id', postController.updatePost);
+app.delete('/posts/:id', postController.deletePost);
 
-app.get('/index', async (req, res) => {
-  const posts = await Post.find({}); // Verileri görmek için
-  res.render('index', {
-    posts,
-  });
-});
-//tek bir foto ait bilgi
-app.get('/posts/:id', async (req, res) => {
-  //console.log(req.params.id);
-  const post = await Post.findById(req.params.id);
-  res.render('post', {
-    post,
-  });
-});
-
-app.get('/about', (req, res) => {
-  res.render('about');
-});
-
-app.get('/add', (req, res) => {
-  res.render('add');
-});
-
-// POST metodu ile gelen veriyi model dosyamız ile yakalayıp veritabanına gönderelim.
-app.post('/posts', async (req, res) => {
-  // async - await yapısı kullanacğız.
-  await Post.create(req.body); // body bilgisini Photo modeli sayesinde veritabanında dökümana dönüştürüyoruz.
-  res.redirect('/index');
-});
+//----pageController.js
+app.get('/about', pageController.getAboutPage);
+app.get('/add', pageController.getAddPage);
+app.get('/posts/edit/:id', pageController.getEditPage);
 
 const port = 3000;
 

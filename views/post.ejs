@@ -27,16 +27,22 @@
   <article>
     <div class="container">
       <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="col-sm-8">
           <%=  post.detail %>
-
-          
         </div>
+        <!--Update and delete -->
+        <div  class="col-sm-4" >
+        <a class="btn btn-outline-danger btn-sm"  href="/posts/<%= post._id %>?_method=DELETE" role="button">Delete</a>
+        <a class="btn btn-outline-success btn-sm" href="/posts/edit/<%= post._id %>" role="button">Update</a>
       </div>
+      </div>
+
     </div>
+
   </article>
 
   <hr>
+  <!--Update and delete -->
 
   <!-- Footer -->
   <%- include('partials/_footer') -%>

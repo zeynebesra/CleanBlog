@@ -13,7 +13,7 @@
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
             <div class="page-heading">
-              <h1>Add New Post</h1>
+              <h1>Edit Post</h1>
             </div>
           </div>
         </div>
@@ -24,13 +24,14 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-          <form novalidate  action="/posts" method="POST" encType="multipart/form-data">
+          <form novalidate  form method="POST" action="/posts/<%= post._id %>?_method=PUT" encType="multipart/form-data">
             <div class="control-group">
               <div class="form-group floating-label-form-group controls">
                 <label>Post Title</label>
                 <input
                   type="text"
                   name="title"
+                  value="<%= post.title %>"
                   class="form-control"
                   placeholder="Post Title"
                   
@@ -50,7 +51,7 @@
                   name="detail"
                   required
                   data-validation-required-message="Please enter a message."
-                ></textarea>
+                ><%= post.detail %></textarea>
                 <p class="help-block text-danger"></p>
               </div>
             </div>
